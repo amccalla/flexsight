@@ -7,15 +7,17 @@
 
 import SwiftUI
 
+/// Placeholder for the Home screen (Figma frame "01 Home") — built in a later step.
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        VStack(spacing: 12) {
+            IconBadge(systemImage: "house.fill")
+            Text("Home coming soon")
+                .font(.headline)
+                .foregroundStyle(Color.labelSecondary)
         }
-        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.backgroundSecondary)
     }
 }
 
