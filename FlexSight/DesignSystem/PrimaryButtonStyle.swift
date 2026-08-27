@@ -13,7 +13,7 @@ struct PrimaryButtonStyle: ButtonStyle {
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity)
             .frame(height: 50)
-            .background(configuration.isPressed ? Color.accentDeep : Color.accentPrimary)
+            .background(Color.accentPrimary.opacity(configuration.isPressed ? 0.75 : 1))
             .clipShape(.capsule)
     }
 }
