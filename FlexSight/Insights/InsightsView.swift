@@ -1,18 +1,16 @@
 //
-//  ContentView.swift
+//  InsightsView.swift
 //  FlexSight
-//
-//  Created by Drew McCalla on 8/26/26.
 //
 
 import SwiftUI
 
-/// Placeholder for the Home screen (Figma frame "01 Home") — built in a later step.
-struct ContentView: View {
+/// Placeholder for the Insights screen (Figma frame "06 Insights – Trends") — built in a later step.
+struct InsightsView: View {
     var body: some View {
         VStack(spacing: 12) {
-            IconBadge(systemImage: "house.fill")
-            Text("Home coming soon")
+            IconBadge(systemImage: "chart.bar.fill")
+            Text("Insights coming soon")
                 .font(.headline)
                 .foregroundStyle(Color.labelSecondary)
         }
@@ -22,5 +20,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    InsightsView()
 }

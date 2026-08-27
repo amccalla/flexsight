@@ -12,7 +12,7 @@ struct RootView: View {
 
     var body: some View {
         if hasCompletedOnboarding {
-            ContentView()
+            MainTabView()
                 .transition(.move(edge: .trailing))
         } else {
             OnboardingView(onFinished: completeOnboarding)
