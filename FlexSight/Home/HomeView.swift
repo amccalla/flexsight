@@ -36,7 +36,7 @@ struct HomeView: View {
         .sheet(isPresented: $viewModel.isShowingSourceSheet) {
             SessionSourceSheet(onChoose: viewModel.choose)
                 .presentationBackground(Color.backgroundPrimary)
-                .presentationDetents([.height(420)])
+                .presentationDetents([.height(420), .large])
                 .presentationDragIndicator(.visible)
                 .presentationCornerRadius(28)
         }

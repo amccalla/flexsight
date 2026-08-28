@@ -21,10 +21,10 @@ struct WorkoutBreakdownRow: View {
             }
             Spacer(minLength: 0)
             VStack(alignment: .trailing, spacing: 2) {
-                Text("best \(Int(breakdown.bestPeak.rounded()))°")
+                Text(breakdown.bestPeak.map { "best \(Int($0.rounded()))°" } ?? "best —")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(Color.labelPrimary)
-                Text("avg \(Int(breakdown.averagePeak.rounded()))°")
+                Text(breakdown.averagePeak.map { "avg \(Int($0.rounded()))°" } ?? "avg —")
                     .font(.footnote)
                     .foregroundStyle(Color.labelSecondary)
             }

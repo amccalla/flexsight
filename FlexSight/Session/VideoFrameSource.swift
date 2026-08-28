@@ -27,7 +27,7 @@ final class VideoFrameSource {
     }
 
     func frames() -> AsyncStream<PixelBufferFrame> {
-        AsyncStream { continuation in
+        AsyncStream(bufferingPolicy: .bufferingNewest(1)) { continuation in
             self.continuation = continuation
             timeObserver = player.addPeriodicTimeObserver(
                 forInterval: CMTime(value: 1, timescale: 30),

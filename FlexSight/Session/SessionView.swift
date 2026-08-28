@@ -42,7 +42,8 @@ struct SessionView: View {
                         workoutName: viewModel.currentWorkout?.displayName,
                         subtitle: viewModel.isLive ? "Live session" : "Recorded video",
                         tracking: viewModel.tracking,
-                        onClose: close
+                        onClose: close,
+                        onSwitchCamera: switchCameraAction
                     )
                     .padding(.horizontal, 16)
                     Spacer()
@@ -196,6 +197,11 @@ struct SessionView: View {
         .padding(24)
         .background(.black.opacity(0.75), in: .rect(cornerRadius: 20))
         .padding(40)
+    }
+
+    private var switchCameraAction: (() -> Void)? {
+        guard viewModel.isLive else { return nil }
+        return { viewModel.switchCamera() }
     }
 
     private func close() {

@@ -12,8 +12,8 @@ struct SessionSummary: Identifiable, Sendable {
     struct WorkoutBreakdown: Identifiable {
         let workout: WorkoutKind
         let repCount: Int
-        let bestPeak: Double
-        let averagePeak: Double
+        let bestPeak: Double?
+        let averagePeak: Double?
 
         var id: WorkoutKind { workout }
     }
@@ -49,12 +49,11 @@ struct SessionSummary: Identifiable, Sendable {
         return order.compactMap { workout in
             guard let group = grouped[workout] else { return nil }
             let peaks = group.filter { !$0.isLowConfidence }.map(\.peakFlexion)
-            let usable = peaks.isEmpty ? group.map(\.peakFlexion) : peaks
             return WorkoutBreakdown(
                 workout: workout,
                 repCount: group.count,
-                bestPeak: usable.max() ?? 0,
-                averagePeak: usable.reduce(0, +) / Double(usable.count)
+                bestPeak: peaks.max(),
+                averagePeak: peaks.isEmpty ? nil : peaks.reduce(0, +) / Double(peaks.count)
             )
         }
     }

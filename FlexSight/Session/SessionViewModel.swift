@@ -117,6 +117,10 @@ final class SessionViewModel {
         videoSource.player.play()
     }
 
+    func switchCamera() {
+        cameraSource?.switchCamera()
+    }
+
     func beginScrubbing() {
         isScrubbing = true
     }
@@ -191,6 +195,7 @@ final class SessionViewModel {
 
     private func stopSources() {
         frameTask?.cancel()
+        playbackEndTask?.cancel()
         videoSource?.stop()
         cameraSource?.stop()
     }
@@ -328,12 +333,18 @@ final class SessionViewModel {
     }
 
     private static func orientation(from transform: CGAffineTransform) -> CGImagePropertyOrientation {
-        let angle = atan2(transform.b, transform.a) * 180 / .pi
+        // A negative determinant means the track is mirrored; strip the
+        // reflection before reading the rotation, then return the mirrored
+        // EXIF variant so Vision interprets the buffer the way it displays.
+        let isMirrored = (transform.a * transform.d - transform.b * transform.c) < 0
+        let a = isMirrored ? -transform.a : transform.a
+        let b = isMirrored ? -transform.b : transform.b
+        let angle = atan2(b, a) * 180 / .pi
         switch Int(angle.rounded()) {
-        case 90: return .right
-        case -90, 270: return .left
-        case 180, -180: return .down
-        default: return .up
+        case 90: return isMirrored ? .rightMirrored : .right
+        case -90, 270: return isMirrored ? .leftMirrored : .left
+        case 180, -180: return isMirrored ? .downMirrored : .down
+        default: return isMirrored ? .upMirrored : .up
         }
     }
 }

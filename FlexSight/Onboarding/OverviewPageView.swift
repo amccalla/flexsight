@@ -14,7 +14,7 @@ struct OverviewPageView: View {
             Text("How it works")
                 .font(.largeTitle.bold())
                 .foregroundStyle(Color.labelPrimary)
-            Text("We scan the video or your camera recording, detect the workout, and show you real-time results.")
+            Text("We scan your live camera or a saved video, detect the workout, and show you real-time results.")
                 .font(.subheadline)
                 .foregroundStyle(Color.labelSecondary)
                 .padding(.top, 8)

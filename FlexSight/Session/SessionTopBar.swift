@@ -10,6 +10,7 @@ struct SessionTopBar: View {
     let subtitle: String
     let tracking: SessionViewModel.TrackingQuality
     let onClose: () -> Void
+    var onSwitchCamera: (() -> Void)?
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -23,6 +24,16 @@ struct SessionTopBar: View {
                 }
                 .accessibilityLabel("Close session")
                 Spacer()
+                if let onSwitchCamera {
+                    Button(action: onSwitchCamera) {
+                        Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90.camera.fill")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(.white)
+                            .frame(width: 36, height: 36)
+                            .background(.white.opacity(0.15), in: .circle)
+                    }
+                    .accessibilityLabel("Switch camera")
+                }
             }
             VStack(spacing: 5) {
                 Text(workoutName ?? "Detecting movement…")
@@ -40,7 +51,10 @@ struct SessionTopBar: View {
 }
 
 #Preview {
-    SessionTopBar(workoutName: "Bodyweight squat", subtitle: "Recorded video", tracking: .high, onClose: {})
-        .padding()
-        .background(Color.black)
+    VStack(spacing: 24) {
+        SessionTopBar(workoutName: "Bodyweight squat", subtitle: "Recorded video", tracking: .high, onClose: {})
+        SessionTopBar(workoutName: "Bodyweight squat", subtitle: "Live session", tracking: .high, onClose: {}, onSwitchCamera: {})
+    }
+    .padding()
+    .background(Color.black)
 }

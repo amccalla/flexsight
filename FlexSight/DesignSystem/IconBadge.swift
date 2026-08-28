@@ -16,6 +16,7 @@ struct IconBadge: View {
             .foregroundStyle(Color.accentDeep)
             .frame(width: size, height: size)
             .background(Color.accentSoft, in: .circle)
+            .accessibilityHidden(true)
     }
 }
 
