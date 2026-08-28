@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct FlexSightApp: App {
+    @State private var sessionStore = SessionStore()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
+                .environment(sessionStore)
         }
     }
 }
