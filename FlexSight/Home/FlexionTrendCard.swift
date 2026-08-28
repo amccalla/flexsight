@@ -30,11 +30,9 @@ struct FlexionTrendCard: View {
                 .foregroundStyle(Color.accentPrimary)
                 .cornerRadius(8)
                 .annotation(position: .top) {
-                    if point.session == points.last?.session {
-                        Text("\(point.degrees)°")
-                            .font(.caption.weight(.medium))
-                            .foregroundStyle(Color.accentDeep)
-                    }
+                    Text("\(point.degrees)°")
+                        .font(.caption2.weight(.medium))
+                        .foregroundStyle(Color.accentDeep)
                 }
             }
             .chartXAxis(.hidden)

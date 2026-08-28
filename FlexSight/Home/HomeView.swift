@@ -3,10 +3,12 @@
 //  FlexSight
 //
 
+import PhotosUI
 import SwiftUI
 
 /// Home screen (Figma frame "01 Home").
 struct HomeView: View {
+    @Environment(SessionStore.self) private var store
     @State private var viewModel = HomeViewModel()
 
     var body: some View {
@@ -14,12 +16,18 @@ struct HomeView: View {
             VStack(alignment: .leading, spacing: 20) {
                 HomeHeader(dateText: viewModel.dateText, greeting: viewModel.greeting)
                 SessionCTACard(onStart: viewModel.startSessionTapped)
-                HStack(spacing: 12) {
-                    ForEach(viewModel.lastSessionStats) { stat in
-                        StatCard(label: stat.label, value: stat.value, detail: stat.detail)
+                if store.sessions.isEmpty {
+                    HomeEmptyStateCard()
+                } else {
+                    HStack(spacing: 12) {
+                        ForEach(viewModel.lastSessionStats(from: store.sessions)) { stat in
+                            StatCard(label: stat.label, value: stat.value, detail: stat.detail)
+                        }
+                    }
+                    if !trendPoints.isEmpty {
+                        FlexionTrendCard(points: trendPoints)
                     }
                 }
-                FlexionTrendCard(points: viewModel.trendPoints)
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
@@ -32,9 +40,25 @@ struct HomeView: View {
                 .presentationDragIndicator(.visible)
                 .presentationCornerRadius(28)
         }
+        .photosPicker(
+            isPresented: $viewModel.isShowingVideoPicker,
+            selection: $viewModel.pickedVideoItem,
+            matching: .videos
+        )
+        .onChange(of: viewModel.pickedVideoItem) {
+            Task { await viewModel.loadPickedVideo() }
+        }
+        .fullScreenCover(item: $viewModel.activeSession) { input in
+            SessionView(input: input)
+        }
+    }
+
+    private var trendPoints: [TrendPoint] {
+        viewModel.trendPoints(from: store.sessions)
     }
 }
 
 #Preview {
     HomeView()
+        .environment(SessionStore())
 }
